@@ -1,0 +1,14 @@
+title Creating a new note
+
+note over Client: User writes a new note and clicks Save
+Client->Server: HTTP POST Content-Type: application/x-www-form-urlencoded \n https://fullstack-exampleapp.herokuapp.com/new_note
+note over Server: Server saves the new note
+Server-->Client: HTTP 302 Found, Location: /notes
+Client->Server: HTTP GET /notes
+Server-->Client: HTML content
+Client->Server: HTTP GET main.js
+Server-->Client: Javascript code
+note over Client: Execute JS
+Client->Server: HTTP GET data.json
+Server-->Client: JSON content, including the new note
+note over Client: Render notes, including the new note

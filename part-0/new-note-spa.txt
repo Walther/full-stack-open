@@ -1,0 +1,7 @@
+title Creating a new note, SPA
+
+note over Client: User writes a new note and clicks Save
+note over Client: Client adds written note to notes\nand calls redrawNotes()
+Client->Server: HTTP POST Content-Type: application/json \n https://fullstack-exampleapp.herokuapp.com/new_note_spa
+note over Server: Server saves the new note
+Server-->Client: HTTP 201 Created
