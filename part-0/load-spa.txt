@@ -1,11 +1,11 @@
 title Loading the SPA
 
 note over Client: User navigates to /spa
-Client->Server: HTTP GET https://fullstack-exampleapp.herokuapp.com/spa
+Client->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa
 Server-->Client: HTML
-Client->Server: HTTP GET https://fullstack-exampleapp.herokuapp.com/main.css
+Client->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
 Server-->Client: main.css
-Client->Server: HTTP GET https://fullstack-exampleapp.herokuapp.com/spa.js
+Client->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa.js
 Server-->Client: spa.js
 
 note over Client: Execute JS
