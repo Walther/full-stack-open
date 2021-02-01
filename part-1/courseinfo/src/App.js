@@ -6,7 +6,7 @@ const Header = (props) => {
 
 const Content = (props) => {
   return props.parts.map((part) => (
-    <Part name={part.name} exercises={part.exercises} />
+    <Part key={part.name} name={part.name} exercises={part.exercises} />
   ));
 };
 
