@@ -21,7 +21,7 @@ export const Country = ({ country }) => {
   );
 };
 
-export const CountryList = ({ countries, filterName }) => {
+export const CountryList = ({ countries, filterName, setFilterName }) => {
   let filtered = countries.filter((country) =>
     country.name.toLowerCase().includes(filterName.toLowerCase())
   );
@@ -34,7 +34,10 @@ export const CountryList = ({ countries, filterName }) => {
     return (
       <ul>
         {filtered.map((country) => (
-          <li key={country.name}>{country.name}</li>
+          <li key={country.name}>
+            {country.name}{" "}
+            <button onClick={() => setFilterName(country.name)}>Select</button>
+          </li>
         ))}
       </ul>
     );

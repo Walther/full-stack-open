@@ -24,7 +24,11 @@ const App = () => {
         filterName={filterName}
         handleFilterNameChange={handleFilterNameChange}
       />
-      <CountryList countries={countries} filterName={filterName} />
+      <CountryList
+        countries={countries}
+        filterName={filterName}
+        setFilterName={setFilterName}
+      />
     </main>
   );
 };
