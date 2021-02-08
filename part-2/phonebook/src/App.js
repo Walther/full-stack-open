@@ -2,12 +2,17 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { PersonForm, PersonFilterForm, PersonList } from "./Person";
 import personService from "./services/persons";
+import { Notification } from "./Notification";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filterName, setFilterName] = useState("");
+  const [notification, setNotification] = useState({
+    message: "",
+    status: "",
+  });
 
   // fetch data from the server
   useEffect(() => {
@@ -39,10 +44,11 @@ const App = () => {
         setPersons(persons.concat(response.data));
         setNewName("");
         setNewNumber("");
+        showNotification("success", `${newName} added successfully`);
       })
       .catch((error) => {
         console.error(error);
-        alert(`Error adding person: ${error}`);
+        showNotification("error", `Error adding person: ${error}`);
       });
   };
 
@@ -65,10 +71,16 @@ const App = () => {
         .then((response) => {
           // Delete from local view too
           setPersons(persons.filter((person) => person.id != id));
+          showNotification("success", `${name} deleted successfully`);
         })
         .catch((error) => {
           console.error(error);
-          alert(`Error deleting person: ${error}`);
+          // Naive assumption: deleted already. We could do statuscode checking etc
+          // but leaving that out of scope for now.
+          showNotification(
+            "error",
+            `Information of ${name} already deleted from the server`
+          );
         });
     }
   };
@@ -85,17 +97,29 @@ const App = () => {
           );
           setNewName("");
           setNewNumber("");
+          showNotification("success", `${name} updated successfully`);
         })
         .catch((error) => {
           console.error(error);
-          alert(`Error deleting person: ${error}`);
+          showNotification("error", `Error deleting person: ${error}`);
         });
     }
+  };
+
+  const showNotification = (status, message) => {
+    setNotification({ status, message });
+    setTimeout(() => {
+      clearNotification();
+    }, 3000);
+  };
+  const clearNotification = () => {
+    setNotification({ status: "", message: "" });
   };
 
   return (
     <main role="main">
       <h1>Phonebook</h1>
+      <Notification notification={notification} />
       <PersonFilterForm
         filterName={filterName}
         handleFilterNameChange={handleFilterNameChange}
