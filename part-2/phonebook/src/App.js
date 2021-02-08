@@ -57,6 +57,21 @@ const App = () => {
     setFilterName(event.target.value);
   };
 
+  const deleteHandler = (id, name) => {
+    if (window.confirm(`Are you sure you want to delete ${name}?`)) {
+      personService
+        .remove(id)
+        .then((response) => {
+          // Delete from local view too
+          setPersons(persons.filter((person) => person.id != id));
+        })
+        .catch((error) => {
+          console.error(error);
+          alert(`Error deleting person: ${error}`);
+        });
+    }
+  };
+
   return (
     <main role="main">
       <h1>Phonebook</h1>
@@ -71,7 +86,11 @@ const App = () => {
         handleNumberChange={handleNumberChange}
         addPerson={addPerson}
       />
-      <PersonList persons={persons} filterName={filterName} />
+      <PersonList
+        persons={persons}
+        filterName={filterName}
+        deleteHandler={deleteHandler}
+      />
     </main>
   );
 };

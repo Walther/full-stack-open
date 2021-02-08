@@ -49,7 +49,7 @@ export const PersonForm = ({
   );
 };
 
-export const PersonList = ({ persons, filterName }) => {
+export const PersonList = ({ persons, filterName, deleteHandler }) => {
   return (
     <>
       <h2>Numbers</h2>
@@ -62,7 +62,9 @@ export const PersonList = ({ persons, filterName }) => {
             <Person
               name={person.name}
               number={person.number}
-              key={person.name}
+              key={person.id}
+              id={person.id}
+              deleteHandler={deleteHandler}
             />
           ))}
       </ul>{" "}
@@ -70,8 +72,9 @@ export const PersonList = ({ persons, filterName }) => {
   );
 };
 
-export const Person = ({ name, number }) => (
+export const Person = ({ name, number, id, deleteHandler }) => (
   <li>
-    {name} {number}
+    {name} {number}{" "}
+    <button onClick={() => deleteHandler(id, name)}>delete</button>
   </li>
 );
