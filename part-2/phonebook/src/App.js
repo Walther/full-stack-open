@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { PersonForm, PersonFilterForm, PersonList } from "./Person";
+import personService from "./services/persons";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -10,7 +11,7 @@ const App = () => {
 
   // fetch data from the server
   useEffect(() => {
-    axios.get("http://localhost:3001/persons").then((response) => {
+    personService.getAll().then((response) => {
       setPersons(response.data);
     });
   }, []);
@@ -31,8 +32,8 @@ const App = () => {
     };
 
     // Persist to database
-    axios
-      .post("http://localhost:3001/persons", person)
+    personService
+      .create(person)
       .then((response) => {
         setPersons(persons.concat(response.data));
         setNewName("");
