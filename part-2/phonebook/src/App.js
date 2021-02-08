@@ -24,14 +24,24 @@ const App = () => {
       return;
     }
 
+    // Create the object
     const person = {
       name: newName,
       number: newNumber,
     };
 
-    setPersons(persons.concat(person));
-    setNewName("");
-    setNewNumber("");
+    // Persist to database
+    axios
+      .post("http://localhost:3001/persons", person)
+      .then((response) => {
+        setPersons(persons.concat(response.data));
+        setNewName("");
+        setNewNumber("");
+      })
+      .catch((error) => {
+        console.error(error);
+        alert(`Error adding person: ${error}`);
+      });
   };
 
   const handleNameChange = (event) => {
