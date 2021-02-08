@@ -19,9 +19,10 @@ const App = () => {
   const addPerson = (event) => {
     event.preventDefault();
 
-    // Prevent duplicates
-    if (persons.find((person) => person.name === newName)) {
-      alert(`${newName} is already in the phonebook, not adding`);
+    // If person exists, offer to update it
+    const existing = persons.find((person) => person.name === newName);
+    if (existing) {
+      updateHandler({ id: existing.id, name: newName, number: newNumber });
       return;
     }
 
@@ -64,6 +65,26 @@ const App = () => {
         .then((response) => {
           // Delete from local view too
           setPersons(persons.filter((person) => person.id != id));
+        })
+        .catch((error) => {
+          console.error(error);
+          alert(`Error deleting person: ${error}`);
+        });
+    }
+  };
+
+  const updateHandler = ({ id, name, number }) => {
+    if (window.confirm(`Do you want to update ${name}?`)) {
+      personService
+        .update(id, { name, number })
+        .then((response) => {
+          console.log(response);
+          // Update local view too
+          setPersons(
+            persons.map((person) => (person.id !== id ? person : response.data))
+          );
+          setNewName("");
+          setNewNumber("");
         })
         .catch((error) => {
           console.error(error);
