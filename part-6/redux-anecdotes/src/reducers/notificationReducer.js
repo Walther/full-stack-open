@@ -1,4 +1,4 @@
-const notificationAtStart = "";
+const notificationAtStart = { content: "", id: null };
 
 const initialState = notificationAtStart;
 
@@ -8,7 +8,15 @@ const reducer = (state = initialState, action) => {
 
   switch (action.type) {
     case "NEW_NOTIFICATION":
-      const newNotification = action.data.content;
+      // Check if we have an existing notification, clear it
+      if (state.id) {
+        clearTimeout(state.id);
+      }
+      const newNotification = {
+        content: action.data.content,
+        id: action.data.id,
+      };
+      console.log("newNotification: ", newNotification);
       return newNotification;
     case "REMOVE_NOTIFICATION":
       return initialState;
@@ -17,10 +25,10 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-export const createNotification = (content) => {
+export const createNotification = (content, id) => {
   return {
     type: "NEW_NOTIFICATION",
-    data: { content },
+    data: { content, id },
   };
 };
 
@@ -32,8 +40,13 @@ export const removeNotification = (content) => {
 
 export const setNotification = (content, time) => {
   return async (dispatch) => {
-    dispatch(createNotification(content));
-    setTimeout(() => dispatch(removeNotification()), time * 1000);
+    // Create a timeout for removing the notification, store the ID
+    const notificationID = setTimeout(
+      () => dispatch(removeNotification()),
+      time * 1000
+    );
+    // Create the new notification, include the ID in the state
+    dispatch(createNotification(content, notificationID));
   };
 };
 
