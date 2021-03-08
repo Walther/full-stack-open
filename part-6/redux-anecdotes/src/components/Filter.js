@@ -1,14 +1,11 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { connect } from "react-redux";
 import { setFilter } from "../reducers/filterReducer";
 
-const Filter = () => {
-  const filter = useSelector((state) => state.filter);
-  const dispatch = useDispatch();
-
+const Filter = (props) => {
   const handleChange = (event) => {
     const content = event.target.value;
-    dispatch(setFilter(content));
+    props.setFilter(content);
   };
   const style = {
     marginBottom: 10,
@@ -21,4 +18,13 @@ const Filter = () => {
   );
 };
 
-export default Filter;
+const mapStateToProps = (state) => {
+  return {
+    filter: state.filter,
+  };
+};
+
+const mapDispatchToProps = { setFilter };
+
+const ConnectedFilter = connect(mapStateToProps, mapDispatchToProps)(Filter);
+export default ConnectedFilter;
