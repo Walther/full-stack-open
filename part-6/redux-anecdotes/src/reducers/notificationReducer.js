@@ -30,4 +30,11 @@ export const removeNotification = (content) => {
   };
 };
 
+export const setNotification = (content, time) => {
+  return async (dispatch) => {
+    dispatch(createNotification(content));
+    setTimeout(() => dispatch(removeNotification()), time * 1000);
+  };
+};
+
 export default reducer;
